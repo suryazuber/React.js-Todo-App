@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>React.Js</title>
+	<script src="JSXTransformer.js"></script>
+	<script src="react.js"></script>
+	<script src="http://code.jquery.com/jquery-1.10.0.js"></script>
+	<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script> -->
+	<script type="text/jsx">
+	/** @jsx React.DOM */
+		console.log("Welcome to React Todo by Zuber!");
+
+		var TodoList = React.createClass({
+			render: function(){
+				var Item = this.props.items.map(function(item){
+					return <li>{item}</li>;
+				});
+				return(<ul>{Item}</ul>);
+			}
+		});
+
+		var TodoApp = React.createClass({
+			getInitialState: function(){
+				return ({ items: ["This is Todo 1","This is Todo 2","This is Todo 3"],todotext : ''});
+			},	
+			handleSubmit: function(e){
+				e.preventDefault();
+				this.state.items.push(this.state.todotext);
+				this.setState({items : this.state.items,todotext : ''});
+
+			},
+			onChange: function(e){
+				this.setState({todotext: e.target.value});
+			},
+			render: function(){
+				return (
+					<div>
+						<TodoList items={this.state.items}/>
+						<div>
+							<form name="addTodo" onSubmit={this.handleSubmit}>
+								<input type="text" onChange={this.onChange} placeholder="Enter Todo here !" value={this.state.todotext}/>
+								<button> Add </button>
+							</form>
+						</div>
+					</div>
+				);
+			}
+		});
+		React.render(<TodoApp/>,document.getElementById('container'));
+	</script>
+</head>
+<body>
+	<div id="container"></div>
+</body>
+</html>
